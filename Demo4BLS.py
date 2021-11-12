@@ -30,15 +30,15 @@ s = 0.8  #  shrink coefficient
 C = 2**-30 # Regularization coefficient
 
 stack_params = [
-    [100, 10, 300, 0, 0, 0],
-    [1, 1, 400, 100, 200, 3],
-    [1, 1, 400, 100, 200, 3],
+    [100, 10, 9000, 0, 0, 0],
+    [8, 9, 380, 100, 200, 3],
+    [8, 9, 380, 100, 200, 3],
 ]
 
 # print('-------------------BLS_BASE---------------------------')
-# BLS(traindata, trainlabel, testdata, testlabel, s, C, stack_params)
+BLS(traindata, trainlabel, testdata, testlabel, s, C, stack_params)
 # print('-------------------BLS_ENHANCE------------------------')
-BLS_AddEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, stack_params, L)
+# BLS_AddEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, stack_params, L)
 print('-------------------BLS_FEATURE&ENHANCE----------------')
 # M2 = 50  #  # of adding feature mapping nodes
 # M3 = 50  #  # of adding enhance nodes

@@ -27,7 +27,6 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
     parameterOfShrink_stack_list = []
     OutputWeight_stack_list = []
 
-
     train_out_put = 0.0
     test_out_put = 0.0
     train_y_value = train_y.copy()
@@ -45,7 +44,7 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
         OutputOfFeatureMappingLayer = np.zeros([train_x.shape[0], N2 * N1])
 
         for i in range(N2):
-            #random.seed(i)
+            # random.seed(i)
             weightOfEachWindow = 2 * random.randn(train_x.shape[1] + 1, N1) - 1
             FeatureOfEachWindow = np.dot(FeatureOfInputDataWithBias, weightOfEachWindow)
             scaler1 = preprocessing.MinMaxScaler(feature_range=(0, 1)).fit(FeatureOfEachWindow)
@@ -70,10 +69,10 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
             [OutputOfFeatureMappingLayer, 0.1 * np.ones((OutputOfFeatureMappingLayer.shape[0], 1))])
 
         if N1 * N2 >= N3:
-            #random.seed(67797325)
+            # random.seed(67797325)
             weightOfEnhanceLayer = LA.orth(2 * random.randn(N2 * N1 + 1, N3)) - 1
         else:
-            #random.seed(67797325)
+            # random.seed(67797325)
             weightOfEnhanceLayer = LA.orth(2 * random.randn(N2 * N1 + 1, N3).T - 1).T
 
         weightOfEnhanceLayer_stack_list.append(weightOfEnhanceLayer.copy())
@@ -114,7 +113,6 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
 
     print("---------------TEST-------------------")
 
-
     test_y_value = test_y.copy()
     test_x_out_put = 0.
     one_stack_acc = 0.
@@ -147,7 +145,6 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
         print("{} stack test accurate is {} %".format(k, one_stack_acc * 100))
         test_y -= OutputOfTest
 
-
         test_x = OutputOfTest
 
     time_end = time.time()
@@ -167,7 +164,6 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
     '''
     u = 0
 
-
     stack_layer_num = len(stack_params)
 
     train_acc = np.zeros([1, L + 1])
@@ -182,15 +178,12 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
     test_time = np.zeros([1, L + 1])
     time_start = time.time()  # 计时开始
 
-
     train_out_put = 0.0
     test_out_put = 0.0
     train_y_value = train_y.copy()
     test_y_value = test_y.copy()
 
     print("-----------TRAIN--------------")
-
-
 
     for k in range(stack_layer_num):
         print("stack step {}".format(k))
@@ -204,10 +197,8 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
         FeatureOfInputDataWithBias = np.hstack([train_x, 0.1 * np.ones((train_x.shape[0], 1))])
         OutputOfFeatureMappingLayer = np.zeros([train_x.shape[0], N2 * N1])
 
-
-
         for i in range(N2):
-            #random.seed(i)
+            # random.seed(i)
             weightOfEachWindow = 2 * random.randn(train_x.shape[1] + 1, N1) - 1
             FeatureOfEachWindow = np.dot(FeatureOfInputDataWithBias, weightOfEachWindow)
             scaler1 = preprocessing.MinMaxScaler(feature_range=(0, 1)).fit(FeatureOfEachWindow)
@@ -224,19 +215,16 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
             del FeatureOfEachWindow
             del weightOfEachWindow
 
-
-        #Enhance
+        # Enhance
         InputOfEnhanceLayerWithBias = np.hstack(
             [OutputOfFeatureMappingLayer, 0.1 * np.ones((OutputOfFeatureMappingLayer.shape[0], 1))])
 
-
         if N1 * N2 >= N3:
-            #random.seed(67797325)
+            # random.seed(67797325)
             weightOfEnhanceLayer = LA.orth(2 * random.randn(N2 * N1 + 1, N3)) - 1
         else:
-            #random.seed(67797325)
+            # random.seed(67797325)
             weightOfEnhanceLayer = LA.orth(2 * random.randn(N2 * N1 + 1, N3).T - 1).T
-
 
         tempOfOutputOfEnhanceLayer = np.dot(InputOfEnhanceLayerWithBias, weightOfEnhanceLayer)
         #    print('Enhance nodes: max:',np.max(tempOfOutputOfEnhanceLayer),'min:',np.min(tempOfOutputOfEnhanceLayer))
@@ -248,9 +236,7 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
         # 生成最终输入
         InputOfOutputLayer = np.hstack([OutputOfFeatureMappingLayer, OutputOfEnhanceLayer])
 
-
         pinvOfInput = pinv(InputOfOutputLayer, c)
-
 
         OutputWeight = np.dot(pinvOfInput, train_y)
 
@@ -258,7 +244,7 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
         trainAcc = show_accuracy(OutputOfTrain + train_out_put, train_y_value)
         print('Training accurate is', trainAcc * 100, '%')
 
-        #test
+        # test
 
         FeatureOfInputDataWithBiasTest = np.hstack([test_x, 0.1 * np.ones((test_x.shape[0], 1))])
         OutputOfFeatureMappingLayerTest = np.zeros([test_x.shape[0], N2 * N1])
@@ -313,12 +299,9 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
             # train_time[0][e + 1] = Training_time
             OutputOfEnhanceLayerAddTest = tansig(
                 InputOfEnhanceLayerWithBiasTest.dot(weightOfEnhanceLayerAdd) * parameterOfShrinkAdd[e])
-            InputOfOutputLayerTest = np.hstack([InputOfOutputLayerTest, OutputOfEnhanceLayerAddTest]) #测试用
-
+            InputOfOutputLayerTest = np.hstack([InputOfOutputLayerTest, OutputOfEnhanceLayerAddTest])  # 测试用
 
         OutputOfTrain = np.dot(InputOfOutputLayer, OutputWeight)
-
-
 
         train_out_put += OutputOfTrain
         train_x = OutputOfTrain
@@ -327,7 +310,6 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
         print('Incremental Training accurate is', trainAcc * 100, '%')
 
         train_y = train_y - train_x
-
 
         OutputOfTest1 = InputOfOutputLayerTest.dot(OutputWeight)
         test_out_put += OutputOfTest1
