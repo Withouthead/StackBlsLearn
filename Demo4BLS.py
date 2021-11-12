@@ -18,7 +18,7 @@ from data_loader import smallnorb_loader, fashionmnist_loader
 # trainlabel = np.double(data['train_y'])
 # testdata = np.double(data['test_x']/255)
 # testlabel = np.double(data['test_y'])
-#traindata, trainlabel, testdata, testlabel = smallnorb_loader()
+# traindata, trainlabel, testdata, testlabel = smallnorb_loader()
 traindata, trainlabel, testdata, testlabel = fashionmnist_loader()
 
 N1 = 10  #  # of nodes belong to each window

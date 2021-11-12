@@ -116,7 +116,7 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
 
 
     test_y_value = test_y.copy()
-    test_x_out_put = 0.0
+    test_x_out_put = 0.
     one_stack_acc = 0.
     for k in range(stack_layer_num):
         N1 = stack_params[k][0]
@@ -172,6 +172,7 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
 
     train_acc = np.zeros([1, L + 1])
     train_x = preprocessing.scale(train_x, axis=1)
+    test_x = preprocessing.scale(test_x, axis=1)
 
     ymin = 0
     ymax = 1
@@ -186,6 +187,7 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
     test_out_put = 0.0
     train_y_value = train_y.copy()
     test_y_value = test_y.copy()
+
     print("-----------TRAIN--------------")
 
 
@@ -257,7 +259,7 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
         print('Training accurate is', trainAcc * 100, '%')
 
         #test
-        test_x = preprocessing.scale(test_x, axis=1)
+
         FeatureOfInputDataWithBiasTest = np.hstack([test_x, 0.1 * np.ones((test_x.shape[0], 1))])
         OutputOfFeatureMappingLayerTest = np.zeros([test_x.shape[0], N2 * N1])
 
