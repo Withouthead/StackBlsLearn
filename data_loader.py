@@ -67,4 +67,7 @@ def fashionmnist_loader():
     y_tr = np.zeros((len(x_train), 10))
     for i in range(len(x_train)):
         y_tr[i][int(y_train[i])] = 1.0
+    y_te = np.zeros((len(x_test), 10))
+    for i in range(len(x_test)):
+        y_te[i][int(y_test[i])] = 1.0
     return x_train / 255.0, y_tr, x_test / 255.0, y_test
