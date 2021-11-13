@@ -1,32 +1,8 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 26 20:35:24 2018
 
-
-@author: HAN_RUIZHI yb77447@umac.mo OR  501248792@qq.com
-
-This code is the first version of BLS Python. 
-If you have any questions about the code or find any bugs
-   or errors during use, please feel free to contact me.
-If you have any questions about the original paper, 
-   please contact the authors of related paper.
-"""
-
-'''
-
-Installation has been tested with Python 3.5.
-Since the package is written in python 3.5, 
-python 3.5 with the pip tool must be installed first. 
-It uses the following dependencies: numpy(1.16.3), scipy(1.2.1), keras(2.2.0), sklearn(0.20.3)  
-You can install these packages first, by the following commands:
-
-pip install numpy
-pip install scipy
-pip install keras (if use keras data_load())
-pip install scikit-learn
-'''
-from BroadLearningSystem import BLS, BLS_AddEnhanceNodes, BLS_AddFeatureEnhanceNodes
-from data_loader import *
+import numpy as np
+import scipy.io as scio
+from StackedBls import BLS, BLS_AddEnhanceNodes
+from data_loader import smallnorb_loader, fashionmnist_loader
 ''' For Keras dataset_load()'''
 # import keras 
 # (traindata, trainlabel), (testdata, testlabel) = keras.datasets.mnist.load_data()
@@ -43,24 +19,32 @@ from data_loader import *
 # testdata = np.double(data['test_x']/255)
 # testlabel = np.double(data['test_y'])
 traindata, trainlabel, testdata, testlabel = smallnorb_loader()
+# traindata, trainlabel, testdata, testlabel = fashionmnist_loader()
+
 N1 = 10  #  # of nodes belong to each window
 N2 = 10  #  # of windows -------Feature mapping layer
-N3 = 10 #  # of enhancement nodes -----Enhance layer
-L = 5    #  # of incremental steps
-M1 = 50  #  # of adding enhance nodes
+N3 = 500 #  # of enhancement nodes -----Enhance layer
+L = 3    #  # of incremental steps
+M1 = 100  #  # of adding enhance nodes
 s = 0.8  #  shrink coefficient
 C = 2**-30 # Regularization coefficient
 
-print('-------------------BLS_BASE---------------------------')
-BLS(traindata, trainlabel, testdata, testlabel, s, C, N1, N2, N3)
-print('-------------------BLS_ENHANCE------------------------')
-BLS_AddEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, N1, N2, N3, L, M1)
+stack_params = [
+    [100, 10, 3000, 0, 0, 0],
+    [1, 1, 200, 100, 0, 2],
+    [1, 1, 200, 100, 0, 2],
+]
+
+# print('-------------------BLS_BASE---------------------------')
+# BLS(traindata, trainlabel, testdata, testlabel, s, C, stack_params)
+# print('-------------------BLS_ENHANCE------------------------')
+BLS_AddEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, stack_params, L)
 print('-------------------BLS_FEATURE&ENHANCE----------------')
-M2 = 50  #  # of adding feature mapping nodes
-M3 = 50  #  # of adding enhance nodes
-BLS_AddFeatureEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, N1, N2, N3, L, M1, M2, M3)
-
-
+# M2 = 50  #  # of adding feature mapping nodes
+# M3 = 50  #  # of adding enhance nodes
+# BLS_AddFeatureEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, N1, N2, N3, L, M1, M2, M3)
+#
+#
 
 
 
