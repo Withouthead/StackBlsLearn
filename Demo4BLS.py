@@ -43,11 +43,11 @@ from data_loader import *
 # testdata = np.double(data['test_x']/255)
 # testlabel = np.double(data['test_y'])
 traindata, trainlabel, testdata, testlabel = smallnorb_loader()
-N1 = 10  #  # of nodes belong to each window
+N1 = 100  #  # of nodes belong to each window
 N2 = 10  #  # of windows -------Feature mapping layer
-N3 = 10 #  # of enhancement nodes -----Enhance layer
-L = 5    #  # of incremental steps
-M1 = 50  #  # of adding enhance nodes
+N3 = 3000 #  # of enhancement nodes -----Enhance layer
+L = 2    #  # of incremental steps
+M1 = 100 #  # of adding enhance nodes
 s = 0.8  #  shrink coefficient
 C = 2**-30 # Regularization coefficient
 
