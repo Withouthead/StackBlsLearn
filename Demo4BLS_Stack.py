@@ -30,7 +30,7 @@ s = 0.8  #  shrink coefficient
 C = 2**-30 # Regularization coefficient
 
 stack_params = [
-    [100, 10, 3000, 0, 0, 0],
+    [100, 1, 500, 0, 0, 0],
     [1, 1, 200, 100, 0, 2],
     [1, 1, 200, 100, 0, 2],
 ]
