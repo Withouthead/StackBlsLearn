@@ -3,6 +3,7 @@ import numpy as np
 import scipy.io as scio
 from StackedBls import BLS, BLS_AddEnhanceNodes
 from data_loader import smallnorb_loader, fashionmnist_loader
+from StackBlsLogger import StackBlsLogger
 ''' For Keras dataset_load()'''
 # import keras 
 # (traindata, trainlabel), (testdata, testlabel) = keras.datasets.mnist.load_data()
@@ -34,11 +35,18 @@ stack_params = [
     [1, 1, 200, 100, 0, 2],
     [1, 1, 200, 100, 0, 2],
 ]
-
+train_logger = StackBlsLogger("./result", "train_result.csv")
+test_logger = StackBlsLogger("./result", "test_result.csv")
 # print('-------------------BLS_BASE---------------------------')
 # BLS(traindata, trainlabel, testdata, testlabel, s, C, stack_params)
 # print('-------------------BLS_ENHANCE------------------------')
-BLS_AddEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, stack_params, L)
+for i in range(50):
+    train_result, test_result = BLS_AddEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, stack_params, L)
+    train_logger.log(train_result)
+    test_logger.log(test_result)
+train_logger.save()
+test_logger.save()
+
 print('-------------------BLS_FEATURE&ENHANCE----------------')
 # M2 = 50  #  # of adding feature mapping nodes
 # M3 = 50  #  # of adding enhance nodes

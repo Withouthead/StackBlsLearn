@@ -9,6 +9,8 @@ from utils.utils import *
 def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
     stack_layer_num = len(stack_params)
 
+    train_result_list = []
+    test_result_list = []
     L = 0
     train_x = preprocessing.scale(train_x, axis=1)
 
@@ -99,6 +101,7 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
         train_x = OutputOfTrain
 
         trainAcc = show_accuracy(train_out_put, train_y_value)
+        train_result_list.append(trainAcc.copy())
         print('Training accurate is', trainAcc * 100, '%')
         print('Training time is ', trainTime, 's')
         train_acc_all[0][0] = trainAcc
@@ -142,6 +145,7 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
         test_x_out_put = test_x_out_put + OutputOfTest
 
         one_stack_acc = show_accuracy(test_y_value, test_x_out_put)
+        test_result_list.append(one_stack_acc.copy())
         print("{} stack test accurate is {} %".format(k, one_stack_acc * 100))
         test_y -= OutputOfTest
 
@@ -154,7 +158,7 @@ def BLS(train_x, train_y, test_x, test_y, s, c, stack_params):
     test_acc[0][0] = one_stack_acc
     test_time[0][0] = testTime
 
-    return test_acc, test_time, train_acc_all, train_time
+    return train_result_list, test_result_list
 
 
 def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L):
@@ -164,6 +168,8 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
     '''
     u = 0
 
+    train_result_list = []
+    test_result_list = []
     stack_layer_num = len(stack_params)
 
     train_acc = np.zeros([1, L + 1])
@@ -242,6 +248,7 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
 
         OutputOfTrain = np.dot(InputOfOutputLayer, OutputWeight)
         trainAcc = show_accuracy(OutputOfTrain + train_out_put, train_y_value)
+        train_result_list.append(trainAcc)
         print('Training accurate is', trainAcc * 100, '%')
 
         # test
@@ -264,6 +271,7 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
 
         OutputOfTest = np.dot(InputOfOutputLayerTest, OutputWeight)
         testAcc = show_accuracy(test_out_put + OutputOfTest, test_y_value)
+        test_result_list.append(testAcc)
         print('Testing accurate is', testAcc * 100, '%')
 
         parameterOfShrinkAdd = []
@@ -307,6 +315,7 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
         train_x = OutputOfTrain
 
         trainAcc = show_accuracy(train_out_put, train_y_value)
+        train_result_list.append(trainAcc)
         print('Incremental Training accurate is', trainAcc * 100, '%')
 
         train_y = train_y - train_x
@@ -314,7 +323,9 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
         OutputOfTest1 = InputOfOutputLayerTest.dot(OutputWeight)
         test_out_put += OutputOfTest1
         TestingAcc = show_accuracy(test_out_put, test_y_value)
+        test_result_list.append(testAcc)
         test_x = OutputOfTest1
         test_y = test_y - test_x
 
         print('Incremental Testing Accuracy is : ', TestingAcc * 100, ' %')
+    return train_result_list, test_result_list
