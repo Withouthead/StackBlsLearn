@@ -32,8 +32,8 @@ C = 2**-30 # Regularization coefficient
 
 stack_params = [
     [100, 1, 500, 0, 0, 0],
-    [1, 1, 200, 100, 0, 2],
-    [1, 1, 200, 100, 0, 2],
+    [1, 1, 200, 100, 0, 7],
+    [1, 1, 200, 100, 0, 7],
 ]
 train_logger = StackBlsLogger("./result", "train_result.csv")
 test_logger = StackBlsLogger("./result", "test_result.csv")
