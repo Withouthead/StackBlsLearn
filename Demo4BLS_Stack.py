@@ -40,7 +40,7 @@ test_logger = StackBlsLogger("./result", "test_result.csv")
 # print('-------------------BLS_BASE---------------------------')
 # BLS(traindata, trainlabel, testdata, testlabel, s, C, stack_params)
 # print('-------------------BLS_ENHANCE------------------------')
-for i in range(50):
+for i in range(2):
     train_result, test_result = BLS_AddEnhanceNodes(traindata, trainlabel, testdata, testlabel, s, C, stack_params, L)
     train_logger.log(train_result)
     test_logger.log(test_result)
