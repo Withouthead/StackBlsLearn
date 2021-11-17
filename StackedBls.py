@@ -305,6 +305,11 @@ def BLS_AddEnhanceNodes(train_x, train_y, test_x, test_y, s, c, stack_params, L)
             InputOfOutputLayer = tempOfLastLayerInput
             # Training_time = time.time() - time_start
             # train_time[0][e + 1] = Training_time
+            OutputOfTrain = np.dot(InputOfOutputLayer, OutputWeight)
+            trainAcc = show_accuracy(train_out_put, train_y_value)
+            train_result_list.append(trainAcc)
+            print('stack {} Incremental {} Training accurate is'.format(k,e), trainAcc * 100, '%')
+
             OutputOfEnhanceLayerAddTest = tansig(
                 InputOfEnhanceLayerWithBiasTest.dot(weightOfEnhanceLayerAdd) * parameterOfShrinkAdd[e])
             InputOfOutputLayerTest = np.hstack([InputOfOutputLayerTest, OutputOfEnhanceLayerAddTest])  # 测试用

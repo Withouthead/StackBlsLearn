@@ -6,13 +6,15 @@ import time
 class StackBlsLogger:
     def __init__(self, save_path, file_name):
         self.build_time = time.localtime(time.time())
-        self.save_path = os.path.join(save_path, time.strftime("%Y_%m_%d.csv", self.build_time))
-        if not os.path.exists(save_path):
-            os.makedirs(save_path)
+        self.save_path = os.path.join(save_path, time.strftime("%Y_%m_%d", self.build_time))
+
 
         self.file_name = file_name
         self.file_path = os.path.join(self.save_path, self.file_name)
         self.result = None
+
+        if not os.path.exists(self.save_path):
+            os.makedirs(self.save_path)
 
     def log(self, log_value):
         if not isinstance(log_value, np.ndarray):
