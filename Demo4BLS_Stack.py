@@ -35,8 +35,8 @@ stack_params = [
     [1, 1, 200, 100, 0, 7],
     [1, 1, 200, 100, 0, 7],
 ]
-train_logger = StackBlsLogger("./result", "train_result.csv")
-test_logger = StackBlsLogger("./result", "test_result.csv")
+train_logger = StackBlsLogger("./result", "train_result.csv", "small_norb", stack_params)
+test_logger = StackBlsLogger("./result", "test_result.csv", "small_norb", stack_params)
 # print('-------------------BLS_BASE---------------------------')
 # BLS(traindata, trainlabel, testdata, testlabel, s, C, stack_params)
 # print('-------------------BLS_ENHANCE------------------------')
